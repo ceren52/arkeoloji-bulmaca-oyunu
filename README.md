@@ -13,6 +13,8 @@ Dark, realistic 2D archaeological exploration and puzzle game built with Phaser.
 - Three doors: left, middle, and right.
 - Three discoverable objects: sentinel statue, broken pot, and shovel.
 - Hovering an object shows an inspection clue; hovering a door shows `Continue through this door`.
+- Discoverable objects have a soft breathing highlight instead of permanent labels; hovering one reveals a magnifying-glass marker.
+- Clue panel flow: an atmospheric line appears first, and `Read more` reveals the detailed clue.
 - Sword cursor: `assets/sword-cursor.svg`.
 - Inventory button in the lower-right corner; capacity is 10 items and collected items show their clues on hover.
 - Browser-generated tense ambient drone and filtered noise bed begin when starting a new game or continuing a save; the lower-left sound controls mute them and adjust their volume.
@@ -35,9 +37,9 @@ When a feature is completed, change its checkbox to `✅`.
 - [ ] Combine inventory items: shovel + excavation mark.
 - [ ] Combine inventory items: wall painting + star map.
 - [ ] Add a lower-left mini-map showing the current room.
-- [ ] Show a small magnifying-glass or glow indicator when hovering an object.
-- [ ] Replace permanent labels with subtle object shimmer/highlight.
-- [ ] Clue boxes: atmospheric short line first, detailed clue behind `Read more`.
+- ✅ Show a small magnifying-glass or glow indicator when hovering an object.
+- ✅ Replace permanent labels with subtle object shimmer/highlight.
+- ✅ Clue boxes: atmospheric short line first, detailed clue behind `Read more`.
 - ✅ Add tense atmospheric background music and sound controls.
 - [ ] Make each of the three doors open a separate room.
 - [ ] Add room-specific clues and save room progress.
@@ -65,3 +67,4 @@ This README is the single project note. A Codex `Stop` hook checks that code cha
 - 2026-09-06 — Added the new-game story introduction: the player identity and Uncle Elias’ disappearance appear on an aged paper with a typewriter reveal before entering the temple.
 - 2026-09-06 — Added a browser-generated ambient drone and filtered noise bed with mute and volume controls; they start from the new-game intro or saved-game flow. Tested with JavaScript syntax checks; next step is to tune the atmosphere after playtesting.
 - 2026-09-06 — Increased the default ambient mix so the tension layer is clearly audible while remaining adjustable from the lower-left volume slider.
+- 2026-09-06 — Reworked object discovery: invisible hitboxes now produce a soft shimmer, a magnifying-glass hover marker, and a two-step atmospheric clue panel with `Read more`. Tested with JavaScript syntax and local HTTP checks; next step is implementing separate door rooms.
