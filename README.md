@@ -29,7 +29,7 @@ Open `http://localhost:8000` in a browser.
 
 When a feature is completed, change its checkbox to `✅`.
 
-- [ ] New-game introduction: explain who the player is and who their uncle is.
+- ✅ New-game introduction: a typewriter-style aged-paper letter introduces Leyla Demir and her missing uncle Elias.
 - [ ] Combine inventory items: obsidian fragment + tablet.
 - [ ] Combine inventory items: shovel + excavation mark.
 - [ ] Combine inventory items: wall painting + star map.
@@ -61,3 +61,4 @@ This README is the single project note. A Codex `Stop` hook checks that code cha
 ## Change log
 
 - 2026-09-06 — Added the project documentation protocol so future Codex sessions update this README and keep the roadmap honest.
+- 2026-09-06 — Added the new-game story introduction: the player identity and Uncle Elias’ disappearance appear on an aged paper with a typewriter reveal before entering the temple.
