@@ -15,7 +15,7 @@ Dark, realistic 2D archaeological exploration and puzzle game built with Phaser.
 - Hovering an object shows an inspection clue; hovering a door shows `Continue through this door`.
 - Sword cursor: `assets/sword-cursor.svg`.
 - Inventory button in the lower-right corner; capacity is 10 items and collected items show their clues on hover.
-- Browser-generated tense ambient drone begins when entering the temple; the lower-left sound controls mute it and adjust its volume.
+- Browser-generated tense ambient drone begins when starting a new game or continuing a save; the lower-left sound controls mute it and adjust its volume.
 - Local Git history and GitHub remote: `https://github.com/ceren52/arkeoloji-bulmaca-oyunu.git`.
 
 ## Run locally
@@ -63,4 +63,4 @@ This README is the single project note. A Codex `Stop` hook checks that code cha
 
 - 2026-09-06 — Added the project documentation protocol so future Codex sessions update this README and keep the roadmap honest.
 - 2026-09-06 — Added the new-game story introduction: the player identity and Uncle Elias’ disappearance appear on an aged paper with a typewriter reveal before entering the temple.
-- 2026-09-06 — Added a low-volume browser-generated ambient drone with mute and volume controls. Tested with JavaScript syntax checks; next step is to tune the atmosphere after playtesting.
+- 2026-09-06 — Added a low-volume browser-generated ambient drone with mute and volume controls; it starts from the new-game intro or saved-game flow. Tested with JavaScript syntax checks; next step is to tune the atmosphere after playtesting.

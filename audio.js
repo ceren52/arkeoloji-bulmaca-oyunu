@@ -89,6 +89,7 @@
     syncControls();
   });
 
+  document.querySelector('#new-game')?.addEventListener('click', resumeAudio);
   document.querySelector('#enter-temple')?.addEventListener('click', resumeAudio);
   document.querySelector('#continue-game')?.addEventListener('click', resumeAudio);
 
