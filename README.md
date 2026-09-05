@@ -64,3 +64,4 @@ This README is the single project note. A Codex `Stop` hook checks that code cha
 - 2026-09-06 — Added the project documentation protocol so future Codex sessions update this README and keep the roadmap honest.
 - 2026-09-06 — Added the new-game story introduction: the player identity and Uncle Elias’ disappearance appear on an aged paper with a typewriter reveal before entering the temple.
 - 2026-09-06 — Added a browser-generated ambient drone and filtered noise bed with mute and volume controls; they start from the new-game intro or saved-game flow. Tested with JavaScript syntax checks; next step is to tune the atmosphere after playtesting.
+- 2026-09-06 — Increased the default ambient mix so the tension layer is clearly audible while remaining adjustable from the lower-left volume slider.

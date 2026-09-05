@@ -2,7 +2,7 @@
   let context;
   let master;
   let muted = false;
-  let volume = 0.35;
+  let volume = 0.65;
   let atmosphereStarted = false;
 
   function createAtmosphere() {
@@ -13,7 +13,7 @@
 
     context = new AudioContextClass();
     master = context.createGain();
-    master.gain.value = volume * 0.22;
+    master.gain.value = volume * 0.4;
     master.connect(context.destination);
 
     const filter = context.createBiquadFilter();
@@ -51,7 +51,7 @@
     noise.loop = true;
     noiseFilter.type = 'lowpass';
     noiseFilter.frequency.value = 720;
-    noiseGain.gain.value = 0.035;
+    noiseGain.gain.value = 0.055;
     noise.connect(noiseFilter).connect(noiseGain).connect(master);
     noise.start();
 
@@ -73,7 +73,7 @@
 
   function updateVolume() {
     if (!master) return;
-    const target = muted ? 0 : volume * 0.22;
+    const target = muted ? 0 : volume * 0.4;
     master.gain.setTargetAtTime(target, context.currentTime, 0.08);
   }
 
@@ -93,6 +93,7 @@
 
   const toggle = document.querySelector('#sound-toggle');
   const volumeControl = document.querySelector('#sound-volume');
+  if (volumeControl) volumeControl.value = String(volume * 100);
 
   toggle?.addEventListener('click', () => {
     resumeAudio();
