@@ -1,0 +1,1 @@
+{"hooks":{"Stop":[{"command":"powershell -NoProfile -ExecutionPolicy Bypass -File .codex/auto-sync.ps1"}]}}

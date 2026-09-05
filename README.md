@@ -51,7 +51,7 @@ The project began as a small browser puzzle, then moved toward a Phaser-based 2D
 
 ## Documentation protocol
 
-This README is the single project note. After every meaningful change, update the relevant section before finishing the session:
+This README is the single project note. A Codex `Stop` hook checks that code changes are accompanied by a README update before committing. After every meaningful change, update the relevant section before finishing the session:
 
 1. Record completed behavior under `Current system`.
 2. Mark the matching item under `Next Steps` as `✅`, or leave it unchecked if only partially done.
