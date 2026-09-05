@@ -1,15 +1,21 @@
 # Shadow Temple — The Lost Tablet
 
-Dark, realistic 2D archaeological exploration puzzle game built with Phaser.
+Dark, realistic 2D archaeological exploration and puzzle game built with Phaser. The player explores an ancient temple, reads clues, collects objects, and gradually uncovers what happened there.
 
-## Current version
+## Current system
 
-- Main menu: Start New Game, Continue Saved Game, Exit Game
-- Pause menu with `Esc`: Resume Game, Main Menu, Exit Game
-- Full-screen temple environment using `assets/temple-entrance.png`
-- Invisible hitboxes aligned to three doors, a sentinel statue, a pot, and a shovel
-- Hover clues and sword cursor (`assets/sword-cursor.svg`)
-- Local Git history and GitHub remote: `https://github.com/ceren52/arkeoloji-bulmaca-oyunu.git`
+- English game language.
+- Main menu: `Start New Game`, `Continue Saved Game`, `Exit Game`.
+- New game opens the first temple room.
+- `Esc` pause menu: `Resume Game`, `Main Menu`, `Exit Game`.
+- Full-screen temple environment using `assets/temple-entrance.png`.
+- No decorative objects are drawn over the reference image; doors and objects use invisible hitboxes aligned to the image.
+- Three doors: left, middle, and right.
+- Three discoverable objects: sentinel statue, broken pot, and shovel.
+- Hovering an object shows an inspection clue; hovering a door shows `Continue through this door`.
+- Sword cursor: `assets/sword-cursor.svg`.
+- Inventory button in the lower-right corner; capacity is 10 items and collected items show their clues on hover.
+- Local Git history and GitHub remote: `https://github.com/ceren52/arkeoloji-bulmaca-oyunu.git`.
 
 ## Run locally
 
@@ -19,6 +25,26 @@ python -m http.server 8000
 
 Open `http://localhost:8000` in a browser.
 
-## Next
+## Next Steps
 
-Open the three doors into separate rooms, add room-specific clues, and save room progress.
+When a feature is completed, change its checkbox to `✅`.
+
+- [ ] New-game introduction: explain who the player is and who their uncle is.
+- [ ] Combine inventory items: obsidian fragment + tablet.
+- [ ] Combine inventory items: shovel + excavation mark.
+- [ ] Combine inventory items: wall painting + star map.
+- [ ] Add a lower-left mini-map showing the current room.
+- [ ] Show a small magnifying-glass or glow indicator when hovering an object.
+- [ ] Replace permanent labels with subtle object shimmer/highlight.
+- [ ] Clue boxes: atmospheric short line first, detailed clue behind `Read more`.
+- [ ] Add tense atmospheric background music and sound controls.
+- [ ] Make each of the three doors open a separate room.
+- [ ] Add room-specific clues and save room progress.
+
+## Design direction
+
+The game should feel like a slow archaeological mystery: inspect the environment, notice relationships between objects, combine clues, and decide what the evidence means. The player should ask “What happened here?” rather than simply “What do I click?”
+
+## Project history
+
+The project began as a small browser puzzle, then moved toward a Phaser-based 2D exploration game with a dark realistic visual style. Code stays in this repository; long-term project decisions are documented in this README and general session memory stays in the Obsidian companion folder.
