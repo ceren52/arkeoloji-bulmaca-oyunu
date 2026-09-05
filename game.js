@@ -1,6 +1,12 @@
 const W = 880;
 const H = 500;
 const items = [];
+const gameSection = document.querySelector('#game');
+const miniMap = document.createElement('aside');
+miniMap.id = 'mini-map';
+miniMap.setAttribute('aria-label', 'Temple map');
+miniMap.innerHTML = '<p class="mini-map-title">TEMPLE MAP</p><div class="mini-map-floor"><span class="map-exit map-exit-left"></span><span class="map-exit map-exit-middle"></span><span class="map-exit map-exit-right"></span><span class="map-room-marker">1</span></div><p class="mini-map-room">Entrance Hall <small>Current room · 1 / 3</small></p>';
+gameSection?.append(miniMap);
 const clues = {
   guard: {
     atmosphere: 'A cold glint catches the torchlight.',

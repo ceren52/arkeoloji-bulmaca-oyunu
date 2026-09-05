@@ -18,6 +18,7 @@ Dark, realistic 2D archaeological exploration and puzzle game built with Phaser.
 - Sword cursor: `assets/sword-cursor.svg`.
 - Inventory button in the lower-right corner; capacity is 10 items and collected items show their clues on hover.
 - Browser-generated tense ambient drone and filtered noise bed begin when starting a new game or continuing a save; the lower-left sound controls mute them and adjust their volume.
+- Lower-left temple mini-map shows the active `Entrance Hall` as room `1 / 3` and marks its three exits; it sits above the sound controls.
 - Local Git history and GitHub remote: `https://github.com/ceren52/arkeoloji-bulmaca-oyunu.git`.
 
 ## Run locally
@@ -36,7 +37,7 @@ When a feature is completed, change its checkbox to `✅`.
 - [ ] Combine inventory items: obsidian fragment + tablet.
 - [ ] Combine inventory items: shovel + excavation mark.
 - [ ] Combine inventory items: wall painting + star map.
-- [ ] Add a lower-left mini-map showing the current room.
+- ✅ Add a lower-left mini-map showing the current room.
 - ✅ Show a small golden sigil glow when hovering an object.
 - ✅ Replace permanent labels with subtle object shimmer/highlight.
 - ✅ Clue boxes: atmospheric short line first, detailed clue behind `Read more`.
@@ -67,4 +68,5 @@ This README is the single project note. A Codex `Stop` hook checks that code cha
 - 2026-09-06 — Added the new-game story introduction: the player identity and Uncle Elias’ disappearance appear on an aged paper with a typewriter reveal before entering the temple.
 - 2026-09-06 — Added a browser-generated ambient drone and filtered noise bed with mute and volume controls; they start from the new-game intro or saved-game flow. Tested with JavaScript syntax checks; next step is to tune the atmosphere after playtesting.
 - 2026-09-06 — Increased the default ambient mix so the tension layer is clearly audible while remaining adjustable from the lower-left volume slider.
+- 2026-09-06 — Added a lower-left temple mini-map for the current Entrance Hall, with a highlighted room marker and three exit markers. Tested with JavaScript syntax and local HTTP checks; next step is implementing separate door rooms.
 - 2026-09-06 — Reworked object discovery: invisible hitboxes now produce a soft shimmer, a golden archaeological-sigil hover marker, and a two-step atmospheric clue panel with `Read more`. Tested with JavaScript syntax and local HTTP checks; next step is implementing separate door rooms.
