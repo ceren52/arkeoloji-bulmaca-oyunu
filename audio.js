@@ -8,9 +8,12 @@
   function createAtmosphere() {
     if (context) return;
 
-    context = new AudioContext();
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+
+    context = new AudioContextClass();
     master = context.createGain();
-    master.gain.value = volume * 0.08;
+    master.gain.value = volume * 0.22;
     master.connect(context.destination);
 
     const filter = context.createBiquadFilter();
@@ -35,6 +38,23 @@
     tension.connect(tensionGain).connect(filter);
     tension.start();
 
+    const noiseBuffer = context.createBuffer(1, context.sampleRate * 2, context.sampleRate);
+    const noiseData = noiseBuffer.getChannelData(0);
+    for (let index = 0; index < noiseData.length; index++) {
+      noiseData[index] = Math.random() * 2 - 1;
+    }
+
+    const noise = context.createBufferSource();
+    const noiseFilter = context.createBiquadFilter();
+    const noiseGain = context.createGain();
+    noise.buffer = noiseBuffer;
+    noise.loop = true;
+    noiseFilter.type = 'lowpass';
+    noiseFilter.frequency.value = 720;
+    noiseGain.gain.value = 0.035;
+    noise.connect(noiseFilter).connect(noiseGain).connect(master);
+    noise.start();
+
     const pulse = context.createOscillator();
     const pulseGain = context.createGain();
     pulse.type = 'sine';
@@ -53,7 +73,7 @@
 
   function updateVolume() {
     if (!master) return;
-    const target = muted ? 0 : volume * 0.08;
+    const target = muted ? 0 : volume * 0.22;
     master.gain.setTargetAtTime(target, context.currentTime, 0.08);
   }
 
