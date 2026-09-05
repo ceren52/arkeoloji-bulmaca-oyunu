@@ -5,8 +5,26 @@ const gameSection = document.querySelector('#game');
 const miniMap = document.createElement('aside');
 miniMap.id = 'mini-map';
 miniMap.setAttribute('aria-label', 'Temple map');
-miniMap.innerHTML = '<p class="mini-map-title">TEMPLE MAP</p><div class="mini-map-floor"><span class="map-exit map-exit-left"></span><span class="map-exit map-exit-middle"></span><span class="map-exit map-exit-right"></span><span class="map-room-marker">1</span></div><p class="mini-map-room">Entrance Hall <small>Current room · 1 / 3</small></p>';
+miniMap.innerHTML = '<p class="mini-map-title">TEMPLE MAP</p><div class="mini-map-floor"><span class="map-exit map-exit-left"></span><span class="map-exit map-exit-middle"></span><span class="map-exit map-exit-right"></span><span class="map-room-marker">1</span></div><p class="mini-map-room">Entrance Hall <small>Current room · 1 / 4</small></p>';
 gameSection?.append(miniMap);
+const mapMeta = {
+  entrance: { number: '1', label: 'Entrance Hall', detail: 'Current room · 1 / 4', exits: 'three' },
+  maps: { number: '2', label: 'Chamber of Maps', detail: 'Current room · 2 / 4', exits: 'back' },
+  seals: { number: '3', label: 'Chamber of Seals', detail: 'Current room · 3 / 4', exits: 'back' },
+  archive: { number: '4', label: 'Excavation Archive', detail: 'Current room · 4 / 4', exits: 'back' }
+};
+
+function updateMiniMap(roomId) {
+  const meta = mapMeta[roomId];
+  if (!meta || !miniMap) return;
+  const floor = miniMap.querySelector('.mini-map-floor');
+  floor.innerHTML = meta.exits === 'three'
+    ? '<span class="map-exit map-exit-left"></span><span class="map-exit map-exit-middle"></span><span class="map-exit map-exit-right"></span>'
+    : '<span class="map-exit map-exit-middle"></span>';
+  floor.insertAdjacentHTML('beforeend', '<span class="map-room-marker">' + meta.number + '</span>');
+  miniMap.querySelector('.mini-map-room').innerHTML = meta.label + '<small>' + meta.detail + '</small>';
+}
+
 const clues = {
   guard: {
     atmosphere: 'A cold glint catches the torchlight.',
@@ -19,6 +37,93 @@ const clues = {
   shovel: {
     atmosphere: 'Fresh earth darkens the blade.',
     detail: 'The shovel is freshly used. Excavation marks lead behind the right door, where someone searched in a hurry.'
+  },
+  obsidian: {
+    atmosphere: 'The stone drinks the light.',
+    detail: 'This obsidian fragment has been cut with the same angular pattern found on the temple tablet.'
+  },
+  starMap: {
+    atmosphere: 'The painted sky is missing one star.',
+    detail: 'The mural is not a calendar. Its missing star marks a passage that only appears after the torchlight fades.'
+  },
+  astrolabe: {
+    atmosphere: 'Bronze remembers a sky no one can see.',
+    detail: 'The astrolabe is fixed to the position of a winter constellation, pointing toward the temple’s sealed route.'
+  },
+  sarcophagus: {
+    atmosphere: 'Something shifted beneath the stone.',
+    detail: 'The sarcophagus lid is not fully seated. Dust around its edge suggests it was opened recently, then closed in haste.'
+  },
+  ritualBowl: {
+    atmosphere: 'Ash clings to the empty bowl.',
+    detail: 'The bowl held resin or oil used in a sealing ritual. A faint black residue matches the marks on the central dais.'
+  },
+  sealCylinder: {
+    atmosphere: 'A story waits inside the rolled clay.',
+    detail: 'The cylinder seal shows three doors and a small figure carrying a tablet away from the sanctuary.'
+  },
+  tabletTray: {
+    atmosphere: 'Wet clay holds a familiar handprint.',
+    detail: 'The tray contains a copied tablet fragment. The brush marks belong to Uncle Elias, but the final line was deliberately erased.'
+  },
+  scrollCase: {
+    atmosphere: 'The scroll case is warm to the touch.',
+    detail: 'A half-open case contains a route ledger. One entry ends at the entrance hall, three weeks after Elias vanished.'
+  },
+  excavationLamp: {
+    atmosphere: 'The flame bends toward the open ground.',
+    detail: 'The bronze lamp is still oily. Its flame reveals a narrow trench leading under the archive’s eastern wall.'
+  }
+};
+
+const rooms = {
+  entrance: {
+    number: 1,
+    label: 'Entrance Hall',
+    background: 'assets/temple-entrance.png',
+    doors: [
+      { x: 154, y: 272, w: 90, h: 175, label: 'Chamber of Maps', target: 'maps' },
+      { x: 508, y: 270, w: 105, h: 160, label: 'Chamber of Seals', target: 'seals' },
+      { x: 744, y: 285, w: 100, h: 170, label: 'Excavation Archive', target: 'archive' }
+    ],
+    objects: [
+      { x: 323, y: 226, w: 62, h: 155, label: 'Sentinel statue', key: 'guard', icon: '🗿' },
+      { x: 586, y: 330, w: 38, h: 72, label: 'Broken pot', key: 'pot', icon: '⚱' },
+      { x: 825, y: 385, w: 80, h: 190, label: 'Shovel', key: 'shovel', icon: '🛠️' }
+    ]
+  },
+  maps: {
+    number: 2,
+    label: 'Chamber of Maps',
+    background: 'assets/chamber-maps.png',
+    doors: [{ x: 76, y: 248, w: 84, h: 165, label: 'Return to Entrance Hall', target: 'entrance' }],
+    objects: [
+      { x: 430, y: 300, w: 72, h: 38, label: 'Obsidian fragment', key: 'obsidian', icon: '◆' },
+      { x: 525, y: 145, w: 245, h: 150, label: 'Star map mural', key: 'starMap', icon: '✦' },
+      { x: 760, y: 255, w: 92, h: 108, label: 'Bronze astrolabe', key: 'astrolabe', icon: '◎' }
+    ]
+  },
+  seals: {
+    number: 3,
+    label: 'Chamber of Seals',
+    background: 'assets/chamber-seals.png',
+    doors: [{ x: 440, y: 190, w: 110, h: 150, label: 'Return to Entrance Hall', target: 'entrance' }],
+    objects: [
+      { x: 470, y: 282, w: 250, h: 120, label: 'Stone sarcophagus', key: 'sarcophagus', icon: '▣' },
+      { x: 130, y: 335, w: 132, h: 92, label: 'Ritual bowl', key: 'ritualBowl', icon: '◉' },
+      { x: 730, y: 345, w: 82, h: 105, label: 'Seal cylinder', key: 'sealCylinder', icon: '▤' }
+    ]
+  },
+  archive: {
+    number: 4,
+    label: 'Excavation Archive',
+    background: 'assets/excavation-archive.png',
+    doors: [{ x: 835, y: 240, w: 75, h: 165, label: 'Return to Entrance Hall', target: 'entrance' }],
+    objects: [
+      { x: 175, y: 300, w: 190, h: 95, label: 'Tablet tray', key: 'tabletTray', icon: '▰' },
+      { x: 600, y: 300, w: 140, h: 105, label: 'Scroll case', key: 'scrollCase', icon: '▱' },
+      { x: 770, y: 410, w: 110, h: 80, label: 'Excavation lamp', key: 'excavationLamp', icon: '◌' }
+    ]
   }
 };
 
@@ -100,16 +205,15 @@ const config = {
   scene: {
     create() {
       const scene = this;
-      document.querySelector('#phaser-game').style.background = "url('assets/temple-entrance.png') 0 0 / 100% 100% no-repeat";
       const cursor = "url('assets/sword-cursor.svg') 4 4, crosshair";
-      scene.tip = scene.add.text(W / 2, 468, '', {
-        fontSize: '15px',
-        color: '#ffe0a0',
-        backgroundColor: '#1b120dcc',
-        padding: { x: 12, y: 7 }
-      }).setOrigin(.5);
+      let renderRoom;
+      const openRoom = roomId => {
+        renderRoom(roomId);
+        location.hash = 'room-' + rooms[roomId].number;
+      };
 
-      const zone = (x, y, w, h, label, key, door) => {
+      const zone = (x, y, w, h, label, key, doorTarget, icon) => {
+        const door = Boolean(doorTarget);
         const highlight = scene.add.rectangle(x, y, w, h, 0xffd27a, 0);
         if (!door) {
           highlight.setAlpha(.025);
@@ -156,7 +260,7 @@ const config = {
           }
           document.body.style.cursor = cursor;
           if (door) {
-            scene.tip.setText('Continue through this door');
+            scene.tip.setText(doorTarget === 'entrance' ? 'Return to Entrance Hall' : 'Enter ' + rooms[doorTarget].label);
           } else {
             scene.tip.setText('');
             showClue(label, key);
@@ -178,20 +282,32 @@ const config = {
 
         hitbox.on('pointerdown', () => {
           if (door) {
-            scene.tip.setText(label + ' selected.');
+            openRoom(doorTarget);
             return;
           }
-          addItem(label, key, key === 'guard' ? '🗿' : key === 'pot' ? '⚱' : '🛠️');
+          addItem(label, key, icon || (key === 'guard' ? '🗿' : key === 'pot' ? '⚱' : '🛠️'));
           showClue(label, key);
         });
       };
 
-      zone(154, 272, 90, 175, 'Left door', '', true);
-      zone(508, 270, 105, 160, 'Middle door', '', true);
-      zone(744, 285, 100, 170, 'Right door', '', true);
-      zone(323, 226, 62, 155, 'Sentinel statue', 'guard', false);
-      zone(586, 330, 38, 72, 'Broken pot', 'pot', false);
-      zone(825, 385, 80, 190, 'Shovel', 'shovel', false);
+      renderRoom = roomId => {
+        const room = rooms[roomId] || rooms.entrance;
+        scene.tweens.killAll();
+        scene.children.removeAll(true);
+        document.body.style.cursor = '';
+        document.querySelector('#phaser-game').style.background = `url('${room.background}') 0 0 / 100% 100% no-repeat`;
+        scene.tip = scene.add.text(W / 2, 468, '', {
+          fontSize: '15px',
+          color: '#ffe0a0',
+          backgroundColor: '#1b120dcc',
+          padding: { x: 12, y: 7 }
+        }).setOrigin(.5);
+        room.doors.forEach(door => zone(door.x, door.y, door.w, door.h, door.label, '', door.target));
+        room.objects.forEach(object => zone(object.x, object.y, object.w, object.h, object.label, object.key, false, object.icon));
+        updateMiniMap(roomId);
+      };
+
+      renderRoom('entrance');
     }
   }
 };

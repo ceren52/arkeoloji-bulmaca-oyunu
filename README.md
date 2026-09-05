@@ -11,7 +11,9 @@ Dark, realistic 2D archaeological exploration and puzzle game built with Phaser.
 - Full-screen temple environment using `assets/temple-entrance.png`.
 - No decorative objects are drawn over the reference image; doors and objects use invisible hitboxes aligned to the image.
 - Three doors: left, middle, and right.
+- Four connected rooms: Entrance Hall, Chamber of Maps, Chamber of Seals, and Excavation Archive. Each doorway swaps the background and keeps the same interaction system.
 - Three discoverable objects: sentinel statue, broken pot, and shovel.
+- Each secondary room contains three room-specific discoverable objects with atmospheric and detailed clues, bag collection, shimmer, and hover feedback.
 - Hovering an object shows an inspection clue; hovering a door shows `Continue through this door`.
 - Discoverable objects have a soft breathing highlight instead of permanent labels; hovering one reveals a small golden archaeological-sigil shimmer.
 - Clue panel flow: an atmospheric line appears first, and `Read more` reveals the detailed clue.
@@ -42,7 +44,7 @@ When a feature is completed, change its checkbox to `✅`.
 - ✅ Replace permanent labels with subtle object shimmer/highlight.
 - ✅ Clue boxes: atmospheric short line first, detailed clue behind `Read more`.
 - ✅ Add tense atmospheric background music and sound controls.
-- [ ] Make each of the three doors open a separate room.
+- ✅ Make each of the three doors open a separate room.
 - [ ] Add room-specific clues and save room progress.
 
 ## Design direction
@@ -69,4 +71,5 @@ This README is the single project note. A Codex `Stop` hook checks that code cha
 - 2026-09-06 — Added a browser-generated ambient drone and filtered noise bed with mute and volume controls; they start from the new-game intro or saved-game flow. Tested with JavaScript syntax checks; next step is to tune the atmosphere after playtesting.
 - 2026-09-06 — Increased the default ambient mix so the tension layer is clearly audible while remaining adjustable from the lower-left volume slider.
 - 2026-09-06 — Added a lower-left temple mini-map for the current Entrance Hall, with a highlighted room marker and three exit markers. Tested with JavaScript syntax and local HTTP checks; next step is implementing separate door rooms.
+- 2026-09-06 — Added three connected rooms with generated dark-realistic temple backgrounds, room-specific object hitboxes and clues, return doors, and live mini-map room updates. Tested with JavaScript syntax and local HTTP checks; next step is adding puzzle gating between rooms.
 - 2026-09-06 — Reworked object discovery: invisible hitboxes now produce a soft shimmer, a golden archaeological-sigil hover marker, and a two-step atmospheric clue panel with `Read more`. Tested with JavaScript syntax and local HTTP checks; next step is implementing separate door rooms.
