@@ -48,3 +48,16 @@ The game should feel like a slow archaeological mystery: inspect the environment
 ## Project history
 
 The project began as a small browser puzzle, then moved toward a Phaser-based 2D exploration game with a dark realistic visual style. Code stays in this repository; long-term project decisions are documented in this README and general session memory stays in the Obsidian companion folder.
+
+## Documentation protocol
+
+This README is the single project note. After every meaningful change, update the relevant section before finishing the session:
+
+1. Record completed behavior under `Current system`.
+2. Mark the matching item under `Next Steps` as `✅`, or leave it unchecked if only partially done.
+3. Add a short `Project history` entry with the change, reason, test result, and next step.
+4. Keep code in the project folder and keep this README synchronized with the implementation.
+
+## Change log
+
+- 2026-09-06 — Added the project documentation protocol so future Codex sessions update this README and keep the roadmap honest.
