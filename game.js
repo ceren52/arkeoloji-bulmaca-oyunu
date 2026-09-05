@@ -117,28 +117,37 @@ const config = {
           });
         }
 
-        const marker = scene.add.text(x + w / 2, y - h / 2 - 14, '🔎', {
-          fontSize: '19px',
-          stroke: '#271508',
-          strokeThickness: 3
-        }).setOrigin(.5).setAlpha(0).setDepth(4);
+        const markerY = y - h / 2 - 12;
+        const marker = door ? null : scene.add.rectangle(x, markerY, 7, 7, 0xe7b866, .95)
+          .setRotation(Math.PI / 4)
+          .setAlpha(0)
+          .setDepth(4);
+        const markerHalo = door ? null : scene.add.circle(x, markerY, 11, 0xe7b866, 0)
+          .setStrokeStyle(1, 0xf6d99d, .75)
+          .setAlpha(0)
+          .setDepth(4);
         const hitbox = scene.add.rectangle(x, y, w, h, 0xffffff, 0).setInteractive({ useHandCursor: false });
         let markerTween;
 
         hitbox.on('pointerover', () => {
           hitbox.setScale(1.08);
           highlight.setScale(1.08);
-          marker.setAlpha(1);
+          if (!door) {
+            marker.setAlpha(1);
+            markerHalo.setAlpha(.75);
+          }
           markerTween?.stop();
-          markerTween = scene.tweens.add({
-            targets: marker,
-            scale: { from: .82, to: 1.08 },
-            alpha: { from: .6, to: 1 },
-            duration: 520,
-            yoyo: true,
-            repeat: -1,
-            ease: 'Sine.inOut'
-          });
+          if (!door) {
+            markerTween = scene.tweens.add({
+              targets: [marker, markerHalo],
+              scale: { from: .82, to: 1.08 },
+              alpha: { from: .6, to: 1 },
+              duration: 520,
+              yoyo: true,
+              repeat: -1,
+              ease: 'Sine.inOut'
+            });
+          }
           document.body.style.cursor = cursor;
           if (door) {
             scene.tip.setText('Continue through this door');
@@ -154,7 +163,8 @@ const config = {
           highlight.setScale(1);
           if (!door) highlight.setAlpha(.025);
           markerTween?.stop();
-          marker.setAlpha(0);
+          marker?.setAlpha(0);
+          markerHalo?.setAlpha(0);
           scene.tip.setText('');
           document.body.style.cursor = '';
           if (!door) scheduleClueHide();
