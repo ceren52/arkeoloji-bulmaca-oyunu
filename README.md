@@ -20,7 +20,10 @@ Dark, realistic 2D archaeological exploration and puzzle game built with Phaser.
 - Sword cursor: `assets/sword-cursor.svg`.
 - Inventory button in the lower-right corner; capacity is 10 items and collected items show their clues on hover.
 - Browser-generated tense ambient drone and filtered noise bed begin when starting a new game or continuing a save; the lower-left sound controls mute them and adjust their volume.
+- Electron desktop shell: the game can open in a standalone desktop window with `npm start`.
 - Lower-left temple mini-map shows the active `Entrance Hall` as room `1 / 3` and marks its three exits; it sits above the sound controls.
+- Door transitions: clicking a door triggers a golden boundary pulse, a short low door sound, a black fade, then the target room opens and the mini-map updates.
+- Foreground torch: the explorer’s hand and torch sit in the lower-right foreground; a warm radial light and subtle sprite sway/flicker animate continuously while exploring.
 - Local Git history and GitHub remote: `https://github.com/ceren52/arkeoloji-bulmaca-oyunu.git`.
 
 ## Run locally
@@ -30,6 +33,25 @@ python -m http.server 8000
 ```
 
 Open `http://localhost:8000` in a browser.
+
+## Run as a desktop game
+
+Install Node.js, then from this folder run:
+
+```powershell
+npm install
+npm start
+```
+
+This opens the same Phaser game in an Electron window. The browser version remains available through the command above. The current Phaser CDN dependency still requires an internet connection; it can be made fully offline by bundling Phaser locally in a later step.
+
+To create a normal Windows installer with a desktop shortcut, run once:
+
+```powershell
+npm run dist
+```
+
+Then open the generated installer in the `release` folder. After installation, launch `Shadow Temple` from the desktop or Start menu without opening a terminal.
 
 ## Next Steps
 
@@ -45,6 +67,9 @@ When a feature is completed, change its checkbox to `✅`.
 - ✅ Clue boxes: atmospheric short line first, detailed clue behind `Read more`.
 - ✅ Add tense atmospheric background music and sound controls.
 - ✅ Make each of the three doors open a separate room.
+- ✅ Add door click feedback, transition sound, fade effect, and mini-map room update.
+- ✅ Add a visible explorer hand and torch with animated warm light.
+- [ ] Produce and layer open-door versions for the three embedded door images.
 - [ ] Add room-specific clues and save room progress.
 
 ## Design direction
@@ -66,6 +91,9 @@ This README is the single project note. A Codex `Stop` hook checks that code cha
 
 ## Change log
 
+- 2026-09-06 — Added an Electron desktop shell with a dark standalone game window and `npm start` launch command. Tested the project configuration and Node/npm availability; next step is installing Electron dependencies and producing a Windows installer.
+- 2026-09-06 — Added Windows installer packaging with Electron Builder, desktop shortcut, and Start menu shortcut. Next step is running `npm install` and `npm run dist` on a machine where npm can write its cache.
+
 - 2026-09-06 — Added the project documentation protocol so future Codex sessions update this README and keep the roadmap honest.
 - 2026-09-06 — Added the new-game story introduction: the player identity and Uncle Elias’ disappearance appear on an aged paper with a typewriter reveal before entering the temple.
 - 2026-09-06 — Added a browser-generated ambient drone and filtered noise bed with mute and volume controls; they start from the new-game intro or saved-game flow. Tested with JavaScript syntax checks; next step is to tune the atmosphere after playtesting.
@@ -73,3 +101,5 @@ This README is the single project note. A Codex `Stop` hook checks that code cha
 - 2026-09-06 — Added a lower-left temple mini-map for the current Entrance Hall, with a highlighted room marker and three exit markers. Tested with JavaScript syntax and local HTTP checks; next step is implementing separate door rooms.
 - 2026-09-06 — Added three connected rooms with generated dark-realistic temple backgrounds, room-specific object hitboxes and clues, return doors, and live mini-map room updates. Tested with JavaScript syntax and local HTTP checks; next step is adding puzzle gating between rooms.
 - 2026-09-06 — Reworked object discovery: invisible hitboxes now produce a soft shimmer, a golden archaeological-sigil hover marker, and a two-step atmospheric clue panel with `Read more`. Tested with JavaScript syntax and local HTTP checks; next step is implementing separate door rooms.
+- 2026-09-06 — Added door transition feedback: a golden light pulse around the embedded door hitbox, a short generated door sound, black fade between rooms, and mini-map synchronization. Tested with JavaScript syntax checks; next step is adding true open-door image layers.
+- 2026-09-06 — Added a generated foreground explorer hand/torch asset with screen-blended placement, subtle sway, and animated radial torchlight. Tested visually in the local game and with JavaScript syntax checks; next step is connecting torch intensity to room events.

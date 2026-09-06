@@ -2,6 +2,64 @@ const W = 880;
 const H = 500;
 const items = [];
 const gameSection = document.querySelector('#game');
+const roomTransition = document.createElement('div');
+roomTransition.id = 'room-transition';
+roomTransition.hidden = true;
+Object.assign(roomTransition.style, {
+  position: 'fixed',
+  inset: '0',
+  zIndex: '20',
+  background: '#050302',
+  opacity: '0',
+  pointerEvents: 'none',
+  transition: 'opacity 420ms ease-in-out'
+});
+document.body.append(roomTransition);
+const torchStyle = document.createElement('style');
+torchStyle.textContent = `
+  @keyframes torch-sway {
+    0%, 100% { transform: translate3d(0, 0, 0) rotate(-1deg) scale(1); }
+    35% { transform: translate3d(-5px, -3px, 0) rotate(1.2deg) scale(1.012); }
+    68% { transform: translate3d(3px, 2px, 0) rotate(-.5deg) scale(.994); }
+  }
+  @keyframes torch-light-flicker {
+    0%, 100% { opacity: .16; transform: scale(1); }
+    22% { opacity: .22; transform: scale(1.04); }
+    47% { opacity: .13; transform: scale(.97); }
+    71% { opacity: .2; transform: scale(1.02); }
+  }
+`;
+document.head.append(torchStyle);
+const torchLight = document.createElement('div');
+torchLight.setAttribute('aria-hidden', 'true');
+Object.assign(torchLight.style, {
+  position: 'fixed',
+  inset: '0',
+  zIndex: '2',
+  pointerEvents: 'none',
+  background: 'radial-gradient(circle at 77% 23%, rgba(255, 167, 63, .62) 0, rgba(237, 119, 30, .18) 13%, transparent 34%)',
+  mixBlendMode: 'screen',
+  animation: 'torch-light-flicker 1.9s ease-in-out infinite'
+});
+const torchSprite = document.createElement('img');
+torchSprite.src = 'assets/explorer-torch.png';
+torchSprite.alt = '';
+torchSprite.setAttribute('aria-hidden', 'true');
+Object.assign(torchSprite.style, {
+  position: 'fixed',
+  right: 'clamp(-40px, 2vw, 30px)',
+  bottom: 'clamp(-150px, -9vh, -35px)',
+  width: 'clamp(210px, 27vw, 390px)',
+  maxHeight: '96vh',
+  objectFit: 'contain',
+  objectPosition: 'center bottom',
+  zIndex: '3',
+  pointerEvents: 'none',
+  mixBlendMode: 'screen',
+  filter: 'saturate(1.12) brightness(1.08)',
+  animation: 'torch-sway 3.2s ease-in-out infinite'
+});
+gameSection?.append(torchLight, torchSprite);
 const miniMap = document.createElement('aside');
 miniMap.id = 'mini-map';
 miniMap.setAttribute('aria-label', 'Temple map');
@@ -207,9 +265,39 @@ const config = {
       const scene = this;
       const cursor = "url('assets/sword-cursor.svg') 4 4, crosshair";
       let renderRoom;
+      let transitioning = false;
       const openRoom = roomId => {
         renderRoom(roomId);
         location.hash = 'room-' + rooms[roomId].number;
+      };
+      const transitionToRoom = (roomId, highlight, doorGlow) => {
+        if (transitioning) return;
+        transitioning = true;
+        scene.input.enabled = false;
+        window.playDoorSound?.();
+        scene.tweens.add({
+          targets: [highlight, doorGlow].filter(Boolean),
+          alpha: { from: .12, to: .82 },
+          scale: { from: 1, to: 1.12 },
+          duration: 260,
+          yoyo: true,
+          repeat: 1,
+          ease: 'Sine.inOut',
+          onComplete: () => {
+            roomTransition.hidden = false;
+            roomTransition.style.opacity = '0';
+            requestAnimationFrame(() => { roomTransition.style.opacity = '1'; });
+            window.setTimeout(() => {
+              openRoom(roomId);
+              roomTransition.style.opacity = '0';
+              window.setTimeout(() => {
+                roomTransition.hidden = true;
+                transitioning = false;
+                scene.input.enabled = true;
+              }, 460);
+            }, 430);
+          }
+        });
       };
 
       const zone = (x, y, w, h, label, key, doorTarget, icon) => {
@@ -226,6 +314,12 @@ const config = {
             ease: 'Sine.inOut'
           });
         }
+        const doorGlow = door
+          ? scene.add.rectangle(x, y, w, h, 0xf3bd63, 0)
+            .setStrokeStyle(3, 0xf3bd63, .9)
+            .setAlpha(0)
+            .setDepth(3)
+          : null;
 
         const markerY = y - h / 2 - 12;
         const marker = door ? null : scene.add.rectangle(x, markerY, 7, 7, 0xe7b866, .95)
@@ -260,6 +354,8 @@ const config = {
           }
           document.body.style.cursor = cursor;
           if (door) {
+            highlight.setAlpha(.045);
+            doorGlow.setAlpha(.58);
             scene.tip.setText(doorTarget === 'entrance' ? 'Return to Entrance Hall' : 'Enter ' + rooms[doorTarget].label);
           } else {
             scene.tip.setText('');
@@ -272,6 +368,10 @@ const config = {
           hitbox.setScale(1);
           highlight.setScale(1);
           if (!door) highlight.setAlpha(.025);
+          if (door) {
+            highlight.setAlpha(0);
+            doorGlow.setAlpha(0);
+          }
           markerTween?.stop();
           marker?.setAlpha(0);
           markerHalo?.setAlpha(0);
@@ -282,7 +382,7 @@ const config = {
 
         hitbox.on('pointerdown', () => {
           if (door) {
-            openRoom(doorTarget);
+            transitionToRoom(doorTarget, highlight, doorGlow);
             return;
           }
           addItem(label, key, icon || (key === 'guard' ? '🗿' : key === 'pot' ? '⚱' : '🛠️'));

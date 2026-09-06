@@ -91,6 +91,27 @@
     updateVolume();
   };
 
+  window.playDoorSound = () => {
+    resumeAudio();
+    if (!context || !master) return;
+
+    const now = context.currentTime;
+    const doorFilter = context.createBiquadFilter();
+    const doorGain = context.createGain();
+    const doorTone = context.createOscillator();
+    doorFilter.type = 'lowpass';
+    doorFilter.frequency.setValueAtTime(520, now);
+    doorTone.type = 'triangle';
+    doorTone.frequency.setValueAtTime(155, now);
+    doorTone.frequency.exponentialRampToValueAtTime(72, now + .42);
+    doorGain.gain.setValueAtTime(.0001, now);
+    doorGain.gain.exponentialRampToValueAtTime(.22, now + .025);
+    doorGain.gain.exponentialRampToValueAtTime(.0001, now + .48);
+    doorTone.connect(doorFilter).connect(doorGain).connect(master);
+    doorTone.start(now);
+    doorTone.stop(now + .5);
+  };
+
   const toggle = document.querySelector('#sound-toggle');
   const volumeControl = document.querySelector('#sound-volume');
   if (volumeControl) volumeControl.value = String(volume * 100);
